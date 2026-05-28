@@ -1,9 +1,6 @@
 # ThreadMarket
 
-A second-hand fashion marketplace built to explore the technical challenges of platforms like Vinted. Browse, filter, and save pre-loved clothing and accessories.
-
-🔗 **[Live Demo](https://threadmarket.vercel.app)** — replace with your Vercel URL
-
+A second-hand fashion marketplace. Browse, filter, and save pre-loved clothing and accessories.
 ---
 
 ## Tech Stack
