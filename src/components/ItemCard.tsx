@@ -7,6 +7,7 @@ import { Item } from "@/types";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleFavorite } from "@/store/favoritesSlice";
 import { conditionLabels } from "@/data/items";
+import { useEffect, useState } from "react";
 
 interface ItemCardProps {
   item: Item;
@@ -17,6 +18,10 @@ export default function ItemCard({ item }: ItemCardProps) {
   const isFavorited = useAppSelector((state) =>
     state.favorites.ids.includes(item.id),
   );
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,7 +53,9 @@ export default function ItemCard({ item }: ItemCardProps) {
           >
             <Heart
               className={`w-4 h-4 transition-colors ${
-                isFavorited ? "fill-rose-500 text-rose-500" : "text-stone-400"
+                mounted && isFavorited
+                  ? "fill-rose-500 text-rose-500"
+                  : "text-stone-400"
               }`}
             />
           </button>

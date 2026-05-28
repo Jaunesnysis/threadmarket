@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { useAppSelector } from "@/store/hooks";
 import { Heart, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const favoriteCount = useAppSelector((state) => state.favorites.ids.length);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <nav className="bg-white border-b border-stone-200 sticky top-0 z-50">
@@ -24,7 +30,7 @@ export default function Navbar() {
               className="flex items-center gap-1.5 text-sm text-stone-600 hover:text-stone-900 transition-colors"
             >
               <Heart className="w-5 h-5" />
-              {favoriteCount > 0 && (
+              {mounted && favoriteCount > 0 && (
                 <span className="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {favoriteCount}
                 </span>
