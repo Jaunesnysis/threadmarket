@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ThreadMarket
+
+A second-hand fashion marketplace built to explore the technical challenges of platforms like Vinted. Browse, filter, and save pre-loved clothing and accessories.
+
+🔗 **[Live Demo](https://threadmarket.vercel.app)** — replace with your Vercel URL
+
+---
+
+## Tech Stack
+
+| Layer            | Technology                   |
+| ---------------- | ---------------------------- |
+| Framework        | Next.js 15 (App Router)      |
+| Language         | TypeScript                   |
+| State Management | Redux Toolkit                |
+| Styling          | Tailwind CSS                 |
+| Testing          | Jest + React Testing Library |
+
+## Features
+
+- **Item grid** — browse 8 pre-loved items with photos, brand, price, size and condition
+- **Filters** — filter by category, condition, price range and size
+- **Search** — search by title or brand
+- **Favorites** — save items with a heart, persisted via localStorage across sessions
+- **Item detail page** — full item info, seller profile, rating and sales count
+- **Favorites page** — view all saved items in one place
+- **Responsive** — mobile-first layout
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npx jest
+```
 
-## Learn More
+5 unit tests covering ItemCard rendering and favorites toggle behaviour.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+src/
+├── app/
+│ ├── page.tsx # Home — item grid + filters + search
+│ ├── item/[id]/page.tsx # Item detail page
+│ ├── favorites/page.tsx # Saved items page
+│ └── layout.tsx # Root layout with Redux provider
+├── components/
+│ ├── ItemCard.tsx # Item card with favorites toggle
+│ ├── FilterSidebar.tsx # Category, condition, price, size filters
+│ ├── Navbar.tsx # Nav with favorites count badge
+│ └── Providers.tsx # Redux Provider wrapper
+├── store/
+│ ├── store.ts # Redux store with localStorage persistence
+│ ├── favoritesSlice.ts # Favorites state and actions
+│ └── hooks.ts # Typed useAppDispatch and useAppSelector
+├── data/
+│ └── items.ts # Mock item data
+├── types/
+│ └── index.ts # TypeScript interfaces
+└── tests/
+└── ItemCard.test.tsx # Jest unit tests
