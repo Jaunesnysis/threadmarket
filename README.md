@@ -42,24 +42,26 @@ npx jest
 
 ## Project Structure
 
+```
 src/
 ├── app/
-│ ├── page.tsx # Home — item grid + filters + search
-│ ├── item/[id]/page.tsx # Item detail page
-│ ├── favorites/page.tsx # Saved items page
-│ └── layout.tsx # Root layout with Redux provider
+│   ├── page.tsx              # Home — item grid + filters + search
+│   ├── item/[id]/page.tsx    # Item detail page
+│   ├── favorites/page.tsx    # Saved items page
+│   └── layout.tsx            # Root layout with Redux provider
 ├── components/
-│ ├── ItemCard.tsx # Item card with favorites toggle
-│ ├── FilterSidebar.tsx # Category, condition, price, size filters
-│ ├── Navbar.tsx # Nav with favorites count badge
-│ └── Providers.tsx # Redux Provider wrapper
+│   ├── ItemCard.tsx          # Item card with favorites toggle
+│   ├── FilterSidebar.tsx     # Category, condition, price, size filters
+│   ├── Navbar.tsx            # Nav with favorites count badge
+│   └── Providers.tsx         # Redux Provider wrapper
 ├── store/
-│ ├── store.ts # Redux store with localStorage persistence
-│ ├── favoritesSlice.ts # Favorites state and actions
-│ └── hooks.ts # Typed useAppDispatch and useAppSelector
+│   ├── store.ts              # Redux store with localStorage persistence
+│   ├── favoritesSlice.ts     # Favorites state and actions
+│   └── hooks.ts              # Typed useAppDispatch and useAppSelector
 ├── data/
-│ └── items.ts # Mock item data
+│   └── items.ts              # Mock item data
 ├── types/
-│ └── index.ts # TypeScript interfaces
-└── tests/
-└── ItemCard.test.tsx # Jest unit tests
+│   └── index.ts              # TypeScript interfaces
+└── __tests__/
+    └── ItemCard.test.tsx     # Jest unit tests
+```
