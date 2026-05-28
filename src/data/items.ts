@@ -135,7 +135,9 @@ export const items: Item[] = [
     size: "L",
     category: "tops",
     condition: "good",
-    images: ["https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500"],
+    images: [
+      "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=500",
+    ],
     description:
       "Grey reverse weave hoodie, super soft. Small logo on chest. Pilling is minimal.",
     seller: {
