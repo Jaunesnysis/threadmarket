@@ -1,65 +1,91 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useMemo } from "react";
+import { Search } from "lucide-react";
+import { items } from "@/data/items";
+import { FilterState } from "@/types";
+import ItemCard from "@/components/ItemCard";
+import FilterSidebar from "@/components/FilterSidebar";
+
+const defaultFilters: FilterState = {
+  category: "all",
+  condition: "all",
+  minPrice: 0,
+  maxPrice: 0,
+  size: "",
+  searchQuery: "",
+};
 
 export default function Home() {
+  const [filters, setFilters] = useState<FilterState>(defaultFilters);
+  const [search, setSearch] = useState("");
+
+  const filtered = useMemo(() => {
+    return items.filter((item) => {
+      if (filters.category !== "all" && item.category !== filters.category)
+        return false;
+      if (filters.condition !== "all" && item.condition !== filters.condition)
+        return false;
+      if (filters.minPrice > 0 && item.price < filters.minPrice) return false;
+      if (filters.maxPrice > 0 && item.price > filters.maxPrice) return false;
+      if (filters.size && item.size !== filters.size) return false;
+      if (
+        search &&
+        !item.title.toLowerCase().includes(search.toLowerCase()) &&
+        !item.brand.toLowerCase().includes(search.toLowerCase())
+      )
+        return false;
+      return true;
+    });
+  }, [filters, search]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-stone-900">
+          Pre-loved fashion,{" "}
+          <span className="text-emerald-600">new to you</span>
+        </h1>
+        <p className="text-stone-500 mt-1">{items.length} items available</p>
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-8">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+        <input
+          type="text"
+          placeholder="Search by title or brand..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-11 pr-4 py-3 bg-white border border-stone-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      </div>
+
+      {/* Layout */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        <FilterSidebar filters={filters} onChange={setFilters} />
+
+        <div className="flex-1">
+          {filtered.length === 0 ? (
+            <div className="text-center py-20 text-stone-400">
+              <p className="text-lg font-medium">No items found</p>
+              <p className="text-sm mt-1">Try adjusting your filters</p>
+            </div>
+          ) : (
+            <>
+              <p className="text-sm text-stone-400 mb-4">
+                {filtered.length} item{filtered.length !== 1 ? "s" : ""} found
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filtered.map((item) => (
+                  <ItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }
